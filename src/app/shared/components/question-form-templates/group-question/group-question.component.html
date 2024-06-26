@@ -1,0 +1,33 @@
+<!-- <ng-container [formGroup]="formGroup()">
+    <mat-accordion [multi]=true>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{parentQuestion().label}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        @for (subQuestion of subQuestions(); track subQuestion) {
+        <div class="form-control">
+          <app-single-question
+            [formGroup]="formGroup().controls[subQuestion.questionId] | formGroupCast"
+            [question]="subQuestion">
+          </app-single-question>
+        </div>
+        }
+  
+      </mat-expansion-panel>
+    </mat-accordion>
+</ng-container> -->
+
+<ng-container [formGroup]="formGroup()">
+  @for (subQuestion of subQuestions(); track subQuestion) {
+    <div class="form-control">
+      <app-single-question
+        [formGroup]="formGroup().controls[subQuestion.questionId] | formGroupCast"
+        [question]="subQuestion"
+      >
+      </app-single-question>
+    </div>
+    }
+</ng-container>

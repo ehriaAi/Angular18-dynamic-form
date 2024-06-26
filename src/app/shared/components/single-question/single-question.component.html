@@ -1,0 +1,119 @@
+<ng-container [formGroup]="formGroup()">
+  @switch (question().answerType) {
+    @case (AnswerType.Text) {
+      <mat-form-field>
+        @if (isShowLabel()) {
+          <mat-label> {{ question().label }}</mat-label>
+        }
+
+        <input
+          matInput
+          placeholder="{{ question().placeholder }}"
+          formControlName="answerContent"
+        />
+        <!-- <mat-error *showError="formGroup: formGroup(); validations: question().validations">{{ $implicit }}</mat-error> -->
+        <!-- <mat-error showError [formGroup]="formGroup()" [validations]="question().validations"> -->
+          <!-- <app-show-error
+            [formGroup]="formGroup()"
+            [validations]="question().validations"
+          >
+          </app-show-error> -->
+        <!-- </mat-error> -->
+      </mat-form-field>
+    }
+
+    @case (AnswerType.Date) {
+      <mat-form-field>
+        @if (isShowLabel()) {
+          <mat-label> {{ question().label }}</mat-label>
+        }
+
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="answerContent"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>
+          <app-show-error
+            [formGroup]="formGroup()"
+            [validations]="question().validations"
+          >
+          </app-show-error>
+        </mat-error>
+      </mat-form-field>
+    }
+
+    @case (AnswerType.Select) {
+      <mat-form-field>
+        @if (isShowLabel()) {
+          <mat-label> {{ question().label }}</mat-label>
+        }
+
+        <mat-select formControlName="answerContent">
+          @for (gender of question().options; track gender) {
+            <mat-option [value]="gender.value">{{ gender.text }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>
+          <app-show-error
+            [formGroup]="formGroup()"
+            [validations]="question().validations"
+          >
+          </app-show-error>
+        </mat-error>
+      </mat-form-field>
+    }
+
+    @case (AnswerType.Checkbox) {
+      <mat-checkbox formControlName="answerContent">
+        {{ question().label }}
+      </mat-checkbox>
+    }
+
+    @case (AnswerType.Button_Select) {
+      @if (isShowLabel()) {
+        <mat-label> {{ question().label }}</mat-label>
+      }
+
+      <div>
+        <mat-button-toggle-group
+          [name]="question().name"
+          formControlName="answerContent"
+          [attr.aria-label]="question().label"
+        >
+          @for (selectOption of question().options; track selectOption) {
+            <mat-button-toggle [value]="selectOption.value">{{
+              selectOption.text
+            }}</mat-button-toggle>
+          }
+        </mat-button-toggle-group>
+      </div>
+    }
+
+    @case (AnswerType.Amount) {
+      <div class="form-control">
+        <mat-form-field>
+          <input
+            matInput
+            type="number"
+            placeholder="{{ question().placeholder }}"
+            formControlName="answerContent"
+          />
+          <span matTextPrefix>$&nbsp;</span>
+          <mat-error>
+            <app-show-error
+              [formGroup]="formGroup()"
+              [validations]="question().validations"
+            >
+            </app-show-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    }
+  }
+</ng-container>

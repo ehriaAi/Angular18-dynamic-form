@@ -1,0 +1,66 @@
+<main>
+  @if (!isLoading() && formGroupStep) {
+    <form [formGroup]="formGroupStep">
+      <h2>{{ applicationStep()?.stepName }}</h2>
+
+      <mat-accordion [multi]="true">
+        <ng-container *ngFor="let question of applicationStep()?.questions">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ question.label }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <mat-panel-description>
+              {{ question.description }}
+            </mat-panel-description>
+
+            @switch (question.questionFormType) {
+              @case ('Array') {
+                <app-array-question
+                  [formGroup]="formGroupStep.controls[question.questionId] | formGroupCast"
+                  [question]="question"
+                >
+                </app-array-question>
+              }
+
+              @case ('Group') {
+                <app-general-group-question
+                  [formGroup]="formGroupStep.controls[question.questionId] | formGroupCast"
+                  [parentQuestion]="question"
+                  [subQuestions]="question.questions!"
+                >
+                </app-general-group-question>
+              }
+
+              @case ('Single') {
+                <app-single-question
+                  [isShowLabel]="false"
+                  [question]="question"
+                  [formGroup]="formGroupStep.controls[question.questionId] | formGroupCast"
+                >
+                </app-single-question>
+              }
+            }
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+    </form>
+  }
+
+  <div class="navigation">
+    <button mat-raised-button type="button" color="warn" (click)="prevStep()" [disabled]="(currentStep$ | async)! <= 1">
+      Previous
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      color="warn"
+      (click)="nextStep()"
+      [disabled]="(currentStep$ | async) === totalStep"
+    >
+      Next
+    </button>
+  </div>
+</main>

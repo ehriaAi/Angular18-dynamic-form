@@ -1,0 +1,9 @@
+<form [formGroup]="formGroup()">
+  <h2> Getting Started</h2>
+    <ng-container *ngFor="let item of applicationStep()?.questions">
+      <app-single-question
+        [question]="item"
+        [formGroup]="getFormGroupQuestion(item.questionId)">
+      </app-single-question>
+    </ng-container>
+</form>

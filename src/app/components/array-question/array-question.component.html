@@ -1,0 +1,7 @@
+<div [formGroup]="formGroup()">
+  @switch(question().answerType) {
+    @case (AnswerType.Property_List_Item) {
+      <app-property-information [question]="question()" formControlName="answerContent"></app-property-information>
+    }
+  }
+</div>

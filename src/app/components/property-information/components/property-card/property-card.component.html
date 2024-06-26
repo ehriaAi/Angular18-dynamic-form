@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <div class="card-title-group">
+        <span class="assetName">Your Asset</span>
+        <button mat-icon-button class="action">
+          <mat-icon color="warn" (click)="delete()">delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <p>{{ data().assetName }}</p>
+      <div>{{ data().assetValue | currency }}</div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      <label>Including a debt?</label>
+      <mat-checkbox color="warn" [checked]="data().isLiability" [disabled]="true"></mat-checkbox>
+    </div>
+  </mat-card-content>
+</mat-card>

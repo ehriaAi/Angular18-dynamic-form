@@ -1,0 +1,8 @@
+<ng-container *ngFor="let property of properties();">
+  <app-property-card class="card-item" [data]="property"></app-property-card>
+</ng-container>
+
+
+<div class="action">
+  <button mat-raised-button type="button" (click)="openDialog()">Add more</button>
+</div>

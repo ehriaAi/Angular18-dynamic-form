@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup()">
+  <h2>Income</h2>
+
+  <mat-accordion [multi]=true>
+    @for (question of applicationStep().questions; track question) {
+    <mat-expansion-panel [formGroup]="formGroup().controls[question.questionId] | formGroupCast" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{question.label}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="form-control">
+        <mat-form-field>
+          <input matInput type="number" placeholder="{{question.placeholder}}" formControlName="answerContent">
+          <span matTextPrefix>$&nbsp;</span>
+          <mat-error>
+            <app-show-error [formGroup]="formGroup().controls[question.questionId] | formGroupCast"
+              [validations]="question.validations">
+            </app-show-error>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      @for (subQuestion of question.questions; track subQuestion) {
+      <div class="form-control">
+        <app-single-question 
+          [formGroup]="formGroup().controls[question.questionId] | formGroupCast"
+          [question]="subQuestion">
+        </app-single-question>
+      </div>
+      }
+
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+
+</form>
